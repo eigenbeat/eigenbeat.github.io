@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="web_flutter_audio_demo">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>web_flutter_audio_demo</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    var serviceWorkerVersion = '3532032870';
+  </script>
+  <!-- This script adds the flutter initialization JS code -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.4.9/Tone.js" type="application/javascript"></script>
+  <script>
+  window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        }
+      }).then(function(engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
+      });
+    });
+  </script>
+  <script>
+    function playNote(note, duration) {
+      var synth = new Tone.Synth().toDestination();
+      synth.triggerAttackRelease(note, duration);
+    }
+
+    const oscillators = [];
+
+    const bassFreq = 32;
+
+    for (let i = 0; i < 8; i++) {
+      oscillators.push(new Tone.Oscillator({
+        frequency: bassFreq * i,
+        type: "sawtooth4",
+        volume: -Infinity,
+        detune: Math.random() * 30 - 15,
+      }).toDestination());
+    }
+
+    function play() {
+      oscillators.forEach(o => {
+        o.start();
+        o.volume.rampTo(-20, 1);
+      });
+    }
+
+   function stop() {
+     oscillators.forEach(o => {
+       o.stop("+1.2");
+       o.volume.rampTo(-Infinity, 1);
+     });
+   }
+
+   function set_freq(f) {
+     oscillators.forEach((osc, i) => {
+       osc.frequency.rampTo(bassFreq * i * f, 0.4);
+     });
+   }
+  </script>
+</body>
+</html>
