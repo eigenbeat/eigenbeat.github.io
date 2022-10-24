@@ -48550,7 +48550,7 @@ $1(a){var s,r,q="set_freq",p=J.as(a)
 if(p.gbb(a)){for(s=p.gJ(a),r=0;s.n();)r+=s.gB(s).b
 r/=p.gm(a)
 $.i7().hz(q,[r])
-return A.a2M("Frequency: "+B.d.M(r,2))}else{$.i7().hz(q,[0])
+return A.a2M("Frequency: "+B.d.M(r,1)+"\nn_players: "+p.gm(a))}else{$.i7().hz(q,[0])
 return B.Gs}},
 $S:329}
 A.ND.prototype={
